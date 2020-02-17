@@ -575,30 +575,30 @@ namespace NaturalScience {
     }
 
 
-    //% shim=DS18B20::Temperature
-    export function Temperature(p: number): number {
+    // //% shim=DS18B20::Temperature
+    //export function Temperature(p: number): number {
         // Fake function for simulator
-        return 0
-    }
+        //return 0
+    //}
 
     /**
      * Get the temperature of the water
      */
-    //% weight=80 blockId="get temp" 
-    //% block="get tempN"
-    export function TemperatureNumber(): number {
-        // Fake function for simulator
-        let x;
-        let temp = Temperature(13);
-        if (temp > 12500) {
-            //temp = Temperature(13);
-            //basic.pause(1);
-            x = 0;
-        } else {
-            x = Math.round(temp / 100);
-        }
-        return x;
-    }
+    // //% weight=80 blockId="get temp" 
+    // //% block="get tempN"
+    // export function TemperatureNumber(): number {
+        // // Fake function for simulator
+        // let x;
+        // let temp = Temperature(13);
+        // if (temp > 12500) {
+            // //temp = Temperature(13);
+            // //basic.pause(1);
+            // x = 0;
+        // } else {
+            // x = Math.round(temp / 100);
+        // }
+        // return x;
+    // }
     let IIC_ADDRESS = 0x16
     let Topic0CallBack: Action = null;
     let Topic1CallBack: Action = null;
