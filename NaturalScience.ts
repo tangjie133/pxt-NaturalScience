@@ -311,8 +311,8 @@ namespace NaturalScience {
     export enum BME280Data {
         //% block="Pressure"
         Pressure,
-        //% block="Temperature"
-        Temperature,
+         //% block="Temperature"
+         Temperature,
         //% block="Humidity"
         Humidity
     }
@@ -575,11 +575,11 @@ namespace NaturalScience {
     }
 
 
-    // //% shim=DS18B20::Temperature
-    //export function Temperature(p: number): number {
-        // Fake function for simulator
-        //return 0
-    //}
+     //% shim=DS18B20::Temperature
+     export function Temperature(p: number): number {
+          Fake function for simulator
+         return 0
+    }
 
     /**
      * Get the temperature of the water
@@ -1168,16 +1168,16 @@ namespace NaturalScience {
                     Topic4CallBack();
                 }
                 break;
-            // case HTTP_REQUEST:
-            //     microIoTStatus = "HTTP_REQUEST"
-            //     microIoT_GetData(tempStatus)
-            //     break;
-            // case READ_VERSION:
-            //     microIoTStatus = "READ_VERSION"
-            //     microIoT_GetData(tempStatus)
-            //     break;
-            // default:
-            //     break;
+            case HTTP_REQUEST:
+                microIoTStatus = "HTTP_REQUEST"
+                microIoT_GetData(tempStatus)
+                break;
+            case READ_VERSION:
+                microIoTStatus = "READ_VERSION"
+                microIoT_GetData(tempStatus)
+                break;
+            default:
+                break;
         }
         basic.pause(200);
     }
