@@ -311,8 +311,8 @@ namespace NaturalScience {
     export enum BME280Data {
         //% block="Pressure"
         Pressure,
-         //% block="Temperature"
-         Temperature,
+        //% block="Temperature"
+        Temperature,
         //% block="Humidity"
         Humidity
     }
@@ -575,30 +575,32 @@ namespace NaturalScience {
     }
 
 
-     //% shim=DS18B20::Temperature
-     export function Temperature(p: number): number {
-          Fake function for simulator
-         return 0
+    //% shim=DS18B20::Temperature
+    export function Temperature(p: number): number {
+        //Fake function for simulator
+        return 0
     }
 
     /**
      * Get the temperature of the water
      */
-    // //% weight=80 blockId="get temp" 
-    // //% block="get tempN"
-    // export function TemperatureNumber(): number {
-        // // Fake function for simulator
-        // let x;
-        // let temp = Temperature(13);
-        // if (temp > 12500) {
-            // //temp = Temperature(13);
-            // //basic.pause(1);
-            // x = 0;
-        // } else {
-            // x = Math.round(temp / 100);
-        // }
-        // return x;
-    // }
+    //% weight=80 blockId="get temp" 
+    //% block="get tempN"
+    export function TemperatureNumber(): number {
+        // Fake function for simulator
+        let x;
+        let temp = Temperature(13);
+        if (temp > 12500) {
+            //temp = Temperature(13);
+            //basic.pause(1);
+            x = 0;
+        } else {
+            x = Math.round(temp / 100);
+        }
+        return x;
+    }
+
+
     let IIC_ADDRESS = 0x16
     let Topic0CallBack: Action = null;
     let Topic1CallBack: Action = null;
@@ -718,6 +720,7 @@ namespace NaturalScience {
         buf[3] = para.length
         for (let i = 0; i < para.length; i++)
             buf[i + 4] = para[i].charCodeAt(0)
+        
         pins.i2cWriteBuffer(IIC_ADDRESS, buf);
     }
 
@@ -808,7 +811,9 @@ namespace NaturalScience {
         void {
         MicrobitIoT_Mode = MQTT
         microIoT_setPara(SETWIFI_NAME, SSID)
+
         microIoT_setPara(SETWIFI_PASSWORLD, PASSWORD)
+
         if (servers == SERVERS.China) {
             microIoT_setPara(SETMQTT_SERVER, OBLOQ_MQTT_EASY_IOT_SERVER_CHINA)
         } else if (servers == SERVERS.English) {
@@ -816,19 +821,25 @@ namespace NaturalScience {
         } else { microIoT_setPara(SETMQTT_SERVER, OBLOQ_MQTT_EASY_IOT_SERVER_GLOBAL) }
 
         microIoT_setPara(SETMQTT_PORT, "1883")
+
         microIoT_setPara(SETMQTT_ID, IOT_ID)
+
         microIoT_setPara(SETMQTT_PASSWORLD, IOT_PWD)
+
         microIoT_runCommand(CONNECT_WIFI)
+
         microIoT_CheckStatus("WiFiConnected");
 
         serial.writeString("wifi conneced ok\r\n");
         Wifi_Status = WIFI_CONNECTED
         microIoT_runCommand(CONNECT_MQTT);
+
         microIoT_CheckStatus("MQTTConnected");
         serial.writeString("mqtt connected\r\n");
 
         Topic_0 = IOT_TOPIC
         microIoT_ParaRunCommand(SUB_TOPIC0, IOT_TOPIC);
+
         microIoT_CheckStatus("SubTopicOK");
         serial.writeString("sub topic ok\r\n");
 
@@ -1089,13 +1100,13 @@ namespace NaturalScience {
         buf[1] = READ_STATUS
         buf[2] = 0x06
         pins.i2cWriteBuffer(IIC_ADDRESS, buf);
-        buf = null
+      
         let recbuf = pins.createBuffer(2)
-        recbuf = pins.i2cReadBuffer(IIC_ADDRESS, 2, false)
+        recbuf = pins.i2cReadBuffer(IIC_ADDRESS, 2)
         tempId = recbuf[0]
         tempStatus = recbuf[1]
-        switch (tempId) {
-            case READ_PING:
+         switch (tempId) {
+             case READ_PING:
                 if (tempStatus == PING_OK) {
                     microIoTStatus = "PingOK"
                 } else {
@@ -1140,34 +1151,34 @@ namespace NaturalScience {
                     Topic0CallBack();
                 }
                 break;
-            case SUB_TOPIC1:
-                microIoTStatus = "READ_TOPICDATA"
-                microIoT_GetData(tempStatus)
-                if (Topic1CallBack != null) {
-                    Topic1CallBack();
-                }
-                break;
-            case SUB_TOPIC2:
-                microIoTStatus = "READ_TOPICDATA"
-                microIoT_GetData(tempStatus)
-                if (Topic2CallBack != null) {
-                    Topic2CallBack();
-                }
-                break;
-            case SUB_TOPIC3:
-                microIoTStatus = "READ_TOPICDATA"
-                microIoT_GetData(tempStatus)
-                if (Topic3CallBack != null) {
-                    Topic3CallBack();
-                }
-                break;
-            case SUB_TOPIC4:
-                microIoTStatus = "READ_TOPICDATA"
-                microIoT_GetData(tempStatus)
-                if (Topic4CallBack != null) {
-                    Topic4CallBack();
-                }
-                break;
+            // case SUB_TOPIC1:
+            //     microIoTStatus = "READ_TOPICDATA"
+            //     microIoT_GetData(tempStatus)
+            //     if (Topic1CallBack != null) {
+            //         Topic1CallBack();
+            //     }
+            //     break;
+            // case SUB_TOPIC2:
+            //     microIoTStatus = "READ_TOPICDATA"
+            //     microIoT_GetData(tempStatus)
+            //     if (Topic2CallBack != null) {
+            //         Topic2CallBack();
+            //     }
+            //     break;
+            // case SUB_TOPIC3:
+            //     microIoTStatus = "READ_TOPICDATA"
+            //     microIoT_GetData(tempStatus)
+            //     if (Topic3CallBack != null) {
+            //         Topic3CallBack();
+            //     }
+            //     break;
+            // case SUB_TOPIC4:
+            //     microIoTStatus = "READ_TOPICDATA"
+            //     microIoT_GetData(tempStatus)
+            //     if (Topic4CallBack != null) {
+            //         Topic4CallBack();
+            //     }
+            //     break;
             case HTTP_REQUEST:
                 microIoTStatus = "HTTP_REQUEST"
                 microIoT_GetData(tempStatus)
@@ -1176,14 +1187,14 @@ namespace NaturalScience {
                 microIoTStatus = "READ_VERSION"
                 microIoT_GetData(tempStatus)
                 break;
-            default:
-                break;
-        }
-        basic.pause(200);
+        //     default:
+        //         break;
+         }
+         basic.pause(200);
     }
 
     basic.forever(function () {
         microIoT_InquireStatus();
-        //basic.pause(1000);
     })
+   
 }
