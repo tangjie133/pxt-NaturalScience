@@ -15,5 +15,8 @@
     ],
     "testFiles": [],
     "public": false,
-    "installedVersion": ""
+    "supportedTargets": [
+        "microbit"
+    ],
+    "preferredEditor": "tsprj"
 }
